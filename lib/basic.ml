@@ -18,7 +18,9 @@ implicit module Category : Category with type ('a,'b) t = 'a -> 'b
 end
 
 
+module type CCC = sig 
+include Category 
+prod : ('a,'b) t -> ('a,'c) t -> ('a,'b*'c) t
+curry : (('a*'b),'c) t -> ('a,('b,'c) t) t
 
-
-
-
+end 
