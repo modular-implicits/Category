@@ -70,13 +70,48 @@ let ( +++ ) {H : HasBinaryCoproducts} : ('a1, 'b1) H.t -> ('a2, 'b2) H.t -> (('a
 
 
 
-
+module type Prod = sig 
+  module C1' : Category
+  module C2' : Category
+  type _ t = Proded : (('a1, 'b1) C1'.t * ('a2, 'b2) C2'.t) -> (('a1 * 'a2) * ('b1 * 'b2)) t
+end
 
 (*
-module type CCC = sig 
-include Category with type ('a, 'b) t = ('a, 'b) t
-include TerminalCategory with type ('a, 'b) t := ('a, 'b) t
-include InitialCategory with type ('a, 'b) t := ('a, 'b) t
+implicit module BinaryCategory {C1 : Category} {C2 : Category} {P : Prod with module C1' = C1 and module C2' = C2} : Category with type ('a, 'b) t = ('a * 'b) P.t = struct 
 
+  module P = P
+  module C1 = C1
+  module C2 = C2
+
+  type ('a, 'b) t = ('a * 'b) P.t
+
+  let src : type a b . (a, b) t -> (a, a) t = function
+    | P.Proded (l, r) -> P.Proded (C1.src l, C2.src r)
+
+  let tgt : type a b. (a, b) t -> (b, b) t = function 
+    | P.Proded (l, r) -> P.Proded (C1.tgt l, C2.tgt r)
+
+  let ( >>> ) : type a b c. (b, c) t -> (a, b) t -> (a, c) t = fun f g -> 
+    match f, g with 
+    | P.Proded (l, r), P.Proded (l', r') -> Proded (C1.(l >>> l'), C2.(r >>> r'))
 end
+
+
 *)
+
+
+implicit module BinaryCategory {C1 : Category} {C2 : Category} : Category with type ('a, 'b) t = ((('a1, 'a2) C1.t) * (('b1, 'b2) C2.t)) constraint ('a * 'b) = ((('a1, 'a2) C1.t) * (('b1, 'b2) C2.t)) = struct 
+
+
+  type ('a, 'b) t = ((('a1, 'a2) C1.t) * (('b1, 'b2) C2.t)) constraint ('a * 'b) = ((('a1, 'a2) C1.t) * (('b1, 'b2) C2.t))
+
+  let src = function
+    | (l, r) -> (C1.src l, C2.src r)
+
+  let tgt = function
+    | (l, r) -> (C1.tgt l, C2.tgt r)
+
+  let ( >>> ) f g = 
+    match f, g with 
+    | (l, r), (l', r') -> (C1.(l >>> l'), C2.(r >>> r'))
+end

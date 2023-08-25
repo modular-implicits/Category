@@ -1,4 +1,5 @@
 open Categories;;
+open Fun;;
 
 module type Functor = sig 
   module Dom : Category
@@ -32,6 +33,39 @@ implicit module ConstFunctor {C : Category} {D : Category} {O : Object with modu
   type 'a ftag = O.t
   let fmap f = O.id
 end
+
+
+(*
+type 'a x = X of 'b constraint 'a = ('b * 'c)
+
+implicit module Proj1 {C1 : Category} {C2 : Category} : Functor with type 'a ftag = 'a C1.t
+ = struct 
+  module BC = BinaryCategory{C1}{C2}
+  module Dom = BC
+  module Cod = C1
+
+  type 'x ftag = ('a1, 'a2) C1.t constraint 'x = (('a1 * 'a2) * 'b)
+  let fmap (Proded (f, g)) = f
+ end 
+
+*)
+
+(* Will consider set and hask to be isomorphic *)
+
+
+
+(*
+module HomFunctor {C : Category} : BiFunctor with module Dom1 := C and module Dom2 := C and module Cod := Fun 
+= struct 
+  module Dom1 = C
+  module Dom2 = C
+  module Cod = Fun
+  type ('a, 'b) ftag = 'a -> 'b
+  let fmap (f, g) = fun x -> g . x . f
+end
+*)
+
+
 
 
 (* Category of categories ???*)

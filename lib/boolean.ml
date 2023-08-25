@@ -47,3 +47,5 @@ end = struct
     | Fls -> Fls 
     | Tru -> F2T
 end
+
+(* module IdBooleanCat = BinaryCategory {BooleanCat} {BooleanCat} *)
