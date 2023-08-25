@@ -1,4 +1,6 @@
 
+type void;;
+
 module type Category = sig 
   type ('a, 'b) t
   
@@ -76,12 +78,8 @@ module type Prod = sig
   type _ t = Proded : (('a1, 'b1) C1'.t * ('a2, 'b2) C2'.t) -> (('a1 * 'a2) * ('b1 * 'b2)) t
 end
 
-(*
-implicit module BinaryCategory {C1 : Category} {C2 : Category} {P : Prod with module C1' = C1 and module C2' = C2} : Category with type ('a, 'b) t = ('a * 'b) P.t = struct 
 
-  module P = P
-  module C1 = C1
-  module C2 = C2
+implicit module BinaryCategory {C1 : Category} {C2 : Category} {P : Prod with module C1' = C1 and module C2' = C2} : Category with type ('a, 'b) t = ('a * 'b) P.t = struct 
 
   type ('a, 'b) t = ('a * 'b) P.t
 
@@ -97,7 +95,9 @@ implicit module BinaryCategory {C1 : Category} {C2 : Category} {P : Prod with mo
 end
 
 
-*)
+
+
+(*
 
 
 implicit module BinaryCategory {C1 : Category} {C2 : Category} : Category with type ('a, 'b) t = ((('a1, 'a2) C1.t) * (('b1, 'b2) C2.t)) constraint ('a * 'b) = ((('a1, 'a2) C1.t) * (('b1, 'b2) C2.t)) = struct 
@@ -115,3 +115,4 @@ implicit module BinaryCategory {C1 : Category} {C2 : Category} : Category with t
     match f, g with 
     | (l, r), (l', r') -> (C1.(l >>> l'), C2.(r >>> r'))
 end
+*)
