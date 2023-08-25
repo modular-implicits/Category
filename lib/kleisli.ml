@@ -2,12 +2,13 @@
 open Imp.Control;;
 open Categories;;
 
+
 (*
 newtype Kleisli m a b = Kleisli { run :: a -> m b }
 
 module type Kleisli = struct 
   module M = Monad 
-  type ('a,'b) t = Kleisli of { run_kleisli : 'a -> 'b M.t }
+  type ('a,'b) t = private ()'a -> 'b M.t )
 end
 
 implicit module KleisliMonad {M: Monad} = struct
@@ -21,7 +22,10 @@ let run_kleisli {K: Kleisli} = K.run_kleisli
 let x = kleisli f 
 
 run_kleisli x
+
 *)
+
+
 
 
 

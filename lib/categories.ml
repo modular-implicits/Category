@@ -7,6 +7,12 @@ module type Category = sig
   val ( >>> ) : ('b, 'c) t -> ('a, 'b) t -> ('a, 'c) t
 end 
 
+module type Object = sig 
+  module C : Category
+  type t
+  val id_arr : (t, t) C.t
+end
+
 implicit module OpCat {C : Category} : Category with type ('a, 'b) t = ('b, 'a) C.t = struct 
   type ('a, 'b) t = ('b, 'a) C.t
 
