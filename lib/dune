@@ -1,5 +1,5 @@
 (library
  (public_name category)
- (modules Basic)
+ (modules Basic Comp)
  (libraries imp)
  (synopsis "Just some categories"))
