@@ -53,6 +53,7 @@ end
 implicit module BooleanCat : sig 
   include Category with type ('a, 'b) t = ('a * 'b) boolean
   include TerminalCategory with type ('a, 'b) t := ('a, 'b) t
+  include InitialCategory with type ('a, 'b) t := ('a, 'b) t
 end = struct 
   type ('a, 'b) t = ('a * 'b) boolean
 
@@ -78,6 +79,12 @@ end = struct
   let terminate : type a. (a, a) t -> (a, tObj) t = function 
     | Fls -> F2T  
     | Tru -> Tru
+
+  type iObj = fls
+  let initialObject = Fls
+  let initialize : type a. (a, a) t -> (iObj, a) t = function 
+    | Fls -> Fls 
+    | Tru -> F2T
 end
 
 implicit module FuncCat : sig
