@@ -30,7 +30,7 @@ implicit module ConstFunctor {C : Category} {D : Category} {O : Object with modu
   module Dom = C
   module Cod = D
   type 'a ftag = O.t
-  let fmap f = O.id_arr
+  let fmap f = O.id
 end
 
 
