@@ -8,6 +8,7 @@ module type Functor = sig
   val fmap : ('a, 'b) Dom.t -> ('a ftag, 'b ftag) Cod.t
 end
 
+
 implicit module IdFunctor {C : Category} : Functor with type 'a ftag = 'a with module Dom := C and module Cod := C
   = struct 
     module Dom = C
@@ -34,21 +35,21 @@ implicit module ConstFunctor {C : Category} {D : Category} {O : Object with modu
   let fmap f = O.id
 end
 
+(* Can't get a projection functor to work, don't know how to do any kind of "fst" operation at the type-level *)
 
 (*
-type 'a x = X of 'b constraint 'a = ('b * 'c)
-
-implicit module Proj1 {C1 : Category} {C2 : Category} : Functor with type 'a ftag = 'a C1.t
- = struct 
-  module BC = BinaryCategory{C1}{C2}
+implicit module Proj1 {C1 : Category} {C2 : Category} : sig
+include ProductCategoryType with type  ('a1, 'b1) t1 = ('a1, 'b1) C1.t and type ('a2, 'b2) t2 = ('a2, 'b2) C2.t
+end = struct 
+  module BC = BinaryCategory4{C1}{C2}
   module Dom = BC
   module Cod = C1
 
   type 'x ftag = ('a1, 'a2) C1.t constraint 'x = (('a1 * 'a2) * 'b)
-  let fmap (Proded (f, g)) = f
+  let fmap (BC.Proded (f, g)) = f
  end 
-
 *)
+
 
 (* Will consider set and hask to be isomorphic *)
 
