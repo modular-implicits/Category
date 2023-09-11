@@ -15,9 +15,27 @@ As types cannot be represented as values the identity morphisms are used in thei
 the value level, you can get these representations of objects with the following functions:
 
 ```ocaml
-val src : ('a, 'b) t -> ('a, 'a) t 
-val tgt : ('a, 'b) t -> ('b, 'b) t
+
+module type Category = sig 
+  type ('a, 'b) t
+  val src : ('a, 'b) t -> ('a, 'a) t 
+  val tgt : ('a, 'b) t -> ('b, 'b) t
+  val ( >>> ) : ('b, 'c) t -> ('a, 'b) t -> ('a, 'c) t
+end 
 ```
+
+We can then represent Functors as follows:
+
+```ocaml
+module type Functor = sig 
+  module Dom : Category
+  module Cod : Category
+  type 'a ftag
+  val fmap : ('a, 'b) Dom.t -> ('a ftag, 'b ftag) Cod.t
+end
+```
+
+
 
 
 
