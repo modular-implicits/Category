@@ -21,8 +21,7 @@ implicit module OpCat {C : Category} : Category with type ('a, 'b) t = ('b, 'a) 
   let src = C.tgt
   let tgt = C.src
 
-  let ( >>> ) : type a b c. (b, c) t -> (a, b) t -> (a, c) t = fun f g -> 
-    C.(g >>> f)
+  let ( >>> ) : type a b c. (b, c) t -> (a, b) t -> (a, c) t = fun f g -> C.(g >>> f)
 end 
 
 module type TerminalCategory = sig 
@@ -153,6 +152,14 @@ end = struct
 end
 
 
+
+      (*
+let x = Bool 
+let y = Int 
+
+let z = map_type x true
+let q = map_type y 1
+*)
 (*
 
 
